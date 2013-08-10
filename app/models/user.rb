@@ -1,24 +1,30 @@
+
 class User < ActiveRecord::Base
+
+  attr_accessor :password
 
   validates :email, presence: true, uniqueness: true, email: true
   validates :name, presence: true
-  validates :password, presence: true
+  validates :password, presence: true, length: { minimum: 6 }
+
+  before_save :hash_password
+
 
   include BCrypt
 
   def self.authenticate(email, password)
     @user = self.find_by_email(email)
-    return @user if @user && (@user.password == password)
+    return @user if @user && Password.new(@user.password_hash) == password
   end
 
-  def password
-    @password ||= Password.new(password_hash)
+  def hash_password
+    self.password_hash = Password.create(self.password)
   end
 
-  def password=(new_password)
-      @password = Password.create(new_password)
-      self.password_hash = @password
-  end
+  # def password=(new_password)
+  #   @password = Password.create(new_password)
+  #   self.password_hash = @password
+  # end
 
 end
 

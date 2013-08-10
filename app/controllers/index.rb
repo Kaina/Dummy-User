@@ -1,3 +1,4 @@
+
 get '/' do
   # Look in app/views/index.erb
   erb :index
@@ -28,6 +29,8 @@ post '/sign_up' do
   else
     erb :sign_up
   end
+
+  
   # if params[:user][:password].blank?  (confirm password is entered - not a blank string)
   #   erb :sign_up
   # else
