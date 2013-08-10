@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   validates :email, presence: true, uniqueness: true, email: true
   validates :name, presence: true
-  validates :password, presence: true, length: { minimum: 6 }  #not working
+  validates :password, presence: true
 
   include BCrypt
 
@@ -16,10 +16,21 @@ class User < ActiveRecord::Base
   end
 
   def password=(new_password)
-    @password = Password.create(new_password)
-    self.password_hash = @password
+      @password = Password.create(new_password)
+      self.password_hash = @password
   end
+
 end
 
 
 # has_secure_password - validations for presence on create/confirmation auto added. 
+
+#   def self.create(options={})
+#     @user = User.new(:email => options[:email])
+#     puts options[:password]
+#     @user.password = options[:password]
+#     @user.save!
+#     @user
+#   end
+
+# end

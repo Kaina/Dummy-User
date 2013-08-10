@@ -41,7 +41,10 @@ post '/sign_up' do
 end
 
 post '/sign_in' do
-  @user = User.authenticate(params[:email], params[:password])
-  session[:user_id] = @user.id
-  redirect('/')
+  if @user = User.authenticate(params[:email], params[:password])
+    session[:user_id] = @user.id
+    redirect('/')
+  else
+    redirect('/')
+  end
 end
